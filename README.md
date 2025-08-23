@@ -1,7 +1,7 @@
 # pucrj-analisededados-mvp-eda
-MVP da SPRINT de Análise Exploratória de Dados da pós-graduação em Ciência de Dados e Analytcs da PUC-RJ
+MVP da SPRINT de Machine Learning & Analytics da pós-graduação em Ciência de Dados e Analytcs da PUC-RJ
 
-# MVP – Análise de Dados e Boas Práticas
+# MVP – Machine Learning & Analytics
 
 **Autor:** Fabiano da Mata Almeida  
 **Dataset:** Pressão de Vapor da Nafta

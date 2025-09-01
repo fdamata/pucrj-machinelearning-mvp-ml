@@ -1,3 +1,8 @@
+# Minhas exclusoes
+catboost_info/
+optimization_plots/
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

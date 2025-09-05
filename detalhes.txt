@@ -1,0 +1,72 @@
+Objetivo: Implementar um monitoramento rigoroso do processo de HPO (hyperparameter optimization) para diagnosticar overtuning/overfitting utilizando algoritmos de machine learning de regressão com validação cruzada.
+
+Contexto: Estou utilizando algoritmos de machine learning de regressão e validação cruzada e quero implementar um monitoramento rigoroso do processo de HPO. A abordagem é para seleção de melhor modelo com diagnostico de overtuning/overfitting.
+
+Fonte: Utilize  scikit-optimize  para  BayesSearchCV  e  algoritmos diversos não apenas do scikit learning.
+
+Expectativas:
+
+Forneça um código completo que faça o pré-processamento dos dados com separação entre treino e teste, sem permitir vazamento de dados. . Construa pipelines para essas execuções. Como requisito será necessário executar a otimização de hiperparâmetros (HPO) com rigoroso monitoramento tando das métricas durante os treinamentos dos modelos, quanto das validações cruzadas, comparando-as. Deve ser plotando o desempenho durante os avanços dos treinamentos e validação, bem como do melhor candidato tanto na validação cruzada quanto em um conjunto de teste final e intocado a cada iteração (evitar vazamento de dados).
+
+A parte mais importante é o callback que realiza a análise de overtuning a cada passo.
+
+Explique detalhadamente cada parte do código, incluindo:
+Divisão dos Dados: Criação de uma divisão fundamental: dev (desenvolvimento) e test_final  (teste final). O conjunto dev é usado inteiramente para o processo de HPO, enquanto o conjunto test_final é mantido completamente separado e só é usado para avaliar a generalização real do melhor modelo a cada passo e do modelo final.
+
+Definição do Modelo e Espaço de Busca: Configuração de uma estrutura para avaliação dos diversos algorítmos e definição do search_spaces contendo os hiperparâmetros que a otimização Bayesiana irá explorar.
+
+Callback OvertuningMonitor: Implementação da classe OvertuningMonitor que será passada para o método .fit() do BayesSearchCV. 
+
+A cada iteração, o callback deve: Obter os scores dos treinamentos e das validações cruzadas, obtendo ainda o melhor score de validação cruzada encontrado até aquele momento.
+
+Pegar os hiperparâmetros correspondentes a esse melhor score.
+
+Treinar um novo modelo do zero usando esses hiperparâmetros no conjunto de desenvolvimento completo.
+
+Avaliar este novo modelo no conjunto de teste final.
+
+Armazenar o score de validação e o score de teste finale a cada passo para plotar as duas curvas e compará-las.
+
+Execução e Visualização: Configuração do  BayesSearchCV  com validação cruzada, impressão dos melhores parâmetros encontrados e desempenho final do modelo, e geração de um gráfico para análise.
+
+Explique como interpretar os resultados do gráfico "Análise de Overtuning", detalhando os cenários possíveis (Cenário Ideal, Meta-overfitting ou Overtuning Leve, Overtuning Severo) e forneça recomendações adicionais caso observe overtuning severo.
+
+Importante que tenhamos diversas métricas sendo calculadas (r2, RMSE e RME), no entanto que eu possa executar o codigo passando a métrica principal a ser utilizada e para plotagem dos gráficos como parametro.
+
+SEED, CV_FOLDS, SPLIT, METRIC_TO_OPT todos passados como parâmetro.
+
+Considerar como jupyter notebook.
+
+Eu queria trabalhar com metadados (ALGO_CONFIGS) com um alias para o algoritmo, o nome do algoritmo para instanciamento e os hiperparametros. E essas esse metadatos para passar os parâmetros para todo o codigo. Isso visando criar um pipeline mais robusto que me permita avaliar mais de um algoritmo. Os metadados para os algoritmos contendo parametros padrão (defaut_params) e parâmetros para a exploração do espaço de busca durante a otimização HPO. Considerar algoritmos linear (LinearRegrssion, Ridge, Lasso, ElasticNet) SVR, extreme e o que mais existir. Em default_params considerar a métrica genérica do algoritmo. E usamos a métrica externa como definido por nosso parametro METRIC_TO_OPT
+
+ALGO_CONFIGS pode ser um json externo para deixar o corpo do notebook mais limpo.
+
+PROMPT:
+
+Implemente em um Jupyter Notebook um pipeline completo para otimização de hiperparâmetros (HPO) com diagnóstico de overtuning/overfitting em modelos de regressão com validação cruzada.
+Objetivo: Monitorar rigorosamente o processo de HPO utilizando BayesSearchCV do scikit-optimize, com múltiplos algoritmos de regressão (incluindo LinearRegression, Ridge, Lasso, ElasticNet, SVR, XGBoost, etc.).
+Contexto:
+Divida os dados em dois conjuntos: dev (para HPO e validação cruzada) e test_final (mantido intocado para avaliação da generalização).
+Evite qualquer vazamento de dados.
+Construa pipelines para pré-processamento, treinamento e avaliação.
+Fonte: Utilize scikit-optimize com BayesSearchCV, e algoritmos diversos (não apenas do scikit-learn).
+Expectativas:
+Implemente uma classe OvertuningMonitor como callback do BayesSearchCV, que a cada iteração:
+Obtenha os scores de treino e validação cruzada.
+Identifique os melhores hiperparâmetros até o momento.
+Treine um novo modelo com esses hiperparâmetros no conjunto dev.
+Avalie esse modelo no test_final.
+Armazene os scores para plotar curvas de validação e teste final.
+Gere gráficos comparativos e explique como interpretar os resultados (cenário ideal, overtuning leve, overtuning severo).
+Permita passar como parâmetros: SEED, CV_FOLDS, SPLIT, METRIC_TO_OPT.
+Calcule múltiplas métricas (R², RMSE, RME), mas use METRIC_TO_OPT como principal para otimização e visualização.
+Utilize metadados externos (ALGO_CONFIGS, em JSON) contendo:
+alias: nome curto do algoritmo
+model_class: nome da classe para instanciamento
+default_params: parâmetros padrão para instanciamento
+search_space: espaço de busca para HPO
+default_metric: métrica padrão do algoritmo
+Gere também um exemplo completo do arquivo JSON ALGO_CONFIGS com pelo menos os seguintes algoritmos: LinearRegression, Ridge, Lasso, ElasticNet, SVR, XGBoost, SGD, ARD, PassiveAgressive, Decision Tree, Randon Forest, AdaBoostingGradient Boosting, Bagging, Extre Tree, KNR,
+Explique detalhadamente cada parte do código gerado.
+
+Na parte de resultados, importante que haja um gráfico com os melhores resultados de cada algorítmo. Esse gráfico deverá ser um boxplot de cada validação cruzada (das métricas dos folds) e para cada algoritmo deve ser plotado também o valor da métrica de teste para comparar e verificar se há houve não overftting.

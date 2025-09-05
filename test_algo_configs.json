@@ -1,0 +1,94 @@
+{
+    "tests": [
+        {
+            "name": "file_exists",
+            "description": "Verify that algo_configs.json exists in the same directory.",
+            "type": "file_exists",
+            "path": "algo_configs.json",
+            "failure_message": "File 'algo_configs.json' not found. Ensure it is saved in the project root next to test_algo_configs.json."
+        },
+        {
+            "name": "valid_json",
+            "description": "Verify that algo_configs.json is valid JSON and can be parsed.",
+            "type": "json_loadable",
+            "path": "algo_configs.json",
+            "failure_message": "Failed to parse 'algo_configs.json'. Remove non-JSON objects (e.g., skopt.space.Real/Integer/Categorical) or serialize them to plain dicts/strings."
+        },
+        {
+            "name": "top_level_is_object",
+            "description": "Top-level of the JSON must be an object/dictionary mapping model keys to configurations.",
+            "type": "schema_check",
+            "path": "algo_configs.json",
+            "criteria": {
+                "top_type": "object"
+            },
+            "failure_message": "Top-level JSON is not an object. Expected a dict of model configurations."
+        },
+        {
+            "name": "required_keys_per_model",
+            "description": "Each model config must contain required keys: alias, model_class, module, default_params, search_space, default_metric.",
+            "type": "per_model_keys",
+            "path": "algo_configs.json",
+            "required_keys": ["alias", "model_class", "module", "default_params", "search_space", "default_metric"],
+            "failure_message": "One or more model entries are missing required keys. Ensure each model has alias, model_class, module, default_params, search_space and default_metric."
+        },
+        {
+            "name": "default_params_type",
+            "description": "Ensure default_params for each model is a JSON object (dictionary).",
+            "type": "per_model_type",
+            "path": "algo_configs.json",
+            "field": "default_params",
+            "expected_type": "object",
+            "failure_message": "default_params must be a JSON object (dict). Replace non-serializable Python objects with JSON-serializable values."
+        },
+        {
+            "name": "search_space_type",
+            "description": "Ensure search_space for each model is a JSON object (dictionary).",
+            "type": "per_model_type",
+            "path": "algo_configs.json",
+            "field": "search_space",
+            "expected_type": "object",
+            "failure_message": "search_space must be a JSON object (dict). If using skopt.space objects, convert them to serializable descriptors."
+        },
+        {
+            "name": "search_space_serializable_values",
+            "description": "Check search_space values are JSON-native types and do not contain skopt.space constructs.",
+            "type": "search_space_serializability",
+            "path": "algo_configs.json",
+            "allowed_json_types": ["null", "boolean", "number", "string", "array", "object"],
+            "disallowed_patterns_in_strings": ["Integer(", "Real(", "Categorical(", "skopt", "Integer ", "Real ", "Categorical "],
+            "failure_message": "Non-serializable objects or skopt.space instances detected in search_space. Convert them to JSON-safe descriptors, e.g. {\"type\":\"Real\",\"low\":0.01,\"high\":1.0,\"prior\":\"log-uniform\"}."
+        },
+        {
+            "name": "suggest_serializable_schema",
+            "description": "Provide a recommended serializable schema for hyperparameter spaces.",
+            "type": "recommendation",
+            "recommendation": {
+                "example_real": {
+                    "type": "Real",
+                    "low": 0.01,
+                    "high": 100.0,
+                    "prior": "log-uniform"
+                },
+                "example_integer": {
+                    "type": "Integer",
+                    "low": 1,
+                    "high": 100
+                },
+                "example_categorical": {
+                    "type": "Categorical",
+                    "choices": ["auto", "sqrt", "log2"]
+                }
+            },
+            "failure_message": "Use the above serializable schema examples to replace skopt objects in algo_configs.json."
+        },
+        {
+            "name": "summary_counts",
+            "description": "Summary: count models checked and number of problems found (for reporting).",
+            "type": "summary",
+            "path": "algo_configs.json",
+            "failure_message": "See individual test failures for details. Fix issues and re-run tests."
+        }
+    ],
+    "notes": "These tests are a machine-readable test specification. Implement a small runner (Python or CI step) that executes tests of type file_exists/json_loadable/schema_check/per_model_keys/per_model_type/search_space_serializability/summary. The critical check to fix immediately is 'search_space_serializable_values' — replace skopt.space objects with plain JSON-compatible descriptors before calling json.dump."
+}

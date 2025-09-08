@@ -14,41 +14,6 @@
         },
         "default_metric": "r2"
     },
-    "ridge": {
-        "alias": "Ridge",
-        "model_class": "Ridge",
-        "module": "sklearn.linear_model",
-        "default_params": {
-            "random_state": 42
-        },
-        "search_space": {
-            "alpha": {
-                "_type": "Real",
-                "low": 0.001,
-                "high": 10.0,
-                "prior": "log-uniform"
-            }
-        },
-        "default_metric": "r2"
-    },
-    "lasso": {
-        "alias": "Lasso",
-        "model_class": "Lasso",
-        "module": "sklearn.linear_model",
-        "default_params": {
-            "random_state": 42,
-            "max_iter": 2000
-        },
-        "search_space": {
-            "alpha": {
-                "_type": "Real",
-                "low": 0.001,
-                "high": 10.0,
-                "prior": "log-uniform"
-            }
-        },
-        "default_metric": "r2"
-    },
     "elastic_net": {
         "alias": "ElasticNet",
         "model_class": "ElasticNet",
@@ -102,147 +67,32 @@
         },
         "default_metric": "r2"
     },
-    "xgboost": {
-        "alias": "XGBoost",
-        "model_class": "XGBRegressor",
-        "module": "xgboost",
+    "knn": {
+        "alias": "KNN",
+        "model_class": "KNeighborsRegressor",
+        "module": "sklearn.neighbors",
         "default_params": {
-            "random_state": 42,
-            "verbosity": 0
+            "n_jobs": -1
         },
         "search_space": {
-            "n_estimators": {
-                "_type": "Integer",
-                "low": 50,
-                "high": 300,
-                "prior": "uniform"
-            },
-            "max_depth": {
+            "n_neighbors": {
                 "_type": "Integer",
                 "low": 3,
-                "high": 10,
+                "high": 20,
                 "prior": "uniform"
             },
-            "learning_rate": {
-                "_type": "Real",
-                "low": 0.01,
-                "high": 0.3,
-                "prior": "log-uniform"
-            },
-            "subsample": {
-                "_type": "Real",
-                "low": 0.6,
-                "high": 1.0,
-                "prior": "uniform"
-            },
-            "colsample_bytree": {
-                "_type": "Real",
-                "low": 0.6,
-                "high": 1.0,
-                "prior": "uniform"
-            }
-        },
-        "default_metric": "r2"
-    },
-    "sgd": {
-        "alias": "SGD",
-        "model_class": "SGDRegressor",
-        "module": "sklearn.linear_model",
-        "default_params": {
-            "random_state": 42,
-            "max_iter": 2000
-        },
-        "search_space": {
-            "alpha": {
-                "_type": "Real",
-                "low": 1e-05,
-                "high": 0.1,
-                "prior": "log-uniform"
-            },
-            "learning_rate": {
+            "weights": {
                 "_type": "Categorical",
                 "categories": [
-                    "constant",
-                    "optimal",
-                    "adaptive"
+                    "uniform",
+                    "distance"
                 ]
             },
-            "eta0": {
-                "_type": "Real",
-                "low": 0.001,
-                "high": 0.1,
-                "prior": "log-uniform"
-            }
-        },
-        "default_metric": "r2"
-    },
-    "ard": {
-        "alias": "ARD",
-        "model_class": "ARDRegression",
-        "module": "sklearn.linear_model",
-        "default_params": {
-            "max_iter": 1000
-        },
-        "search_space": {
-            "alpha_1": {
-                "_type": "Real",
-                "low": 1e-07,
-                "high": 0.001,
-                "prior": "log-uniform"
-            },
-            "alpha_2": {
-                "_type": "Real",
-                "low": 1e-07,
-                "high": 0.001,
-                "prior": "log-uniform"
-            },
-            "lambda_1": {
-                "_type": "Real",
-                "low": 1e-07,
-                "high": 0.001,
-                "prior": "log-uniform"
-            },
-            "lambda_2": {
-                "_type": "Real",
-                "low": 1e-07,
-                "high": 0.001,
-                "prior": "log-uniform"
-            }
-        },
-        "default_metric": "r2"
-    },
-    "decision_tree": {
-        "alias": "DecisionTree",
-        "model_class": "DecisionTreeRegressor",
-        "module": "sklearn.tree",
-        "default_params": {
-            "random_state": 42
-        },
-        "search_space": {
-            "max_depth": {
-                "_type": "Integer",
-                "low": 3,
-                "high": 20,
-                "prior": "uniform"
-            },
-            "min_samples_split": {
-                "_type": "Integer",
-                "low": 2,
-                "high": 20,
-                "prior": "uniform"
-            },
-            "min_samples_leaf": {
+            "p": {
                 "_type": "Integer",
                 "low": 1,
-                "high": 10,
+                "high": 2,
                 "prior": "uniform"
-            },
-            "max_features": {
-                "_type": "Categorical",
-                "categories": [
-                    "sqrt",
-                    "log2"
-                ]
             }
         },
         "default_metric": "r2"
@@ -422,31 +272,176 @@
         },
         "default_metric": "r2"
     },
-    "knn": {
-        "alias": "KNN",
-        "model_class": "KNeighborsRegressor",
-        "module": "sklearn.neighbors",
+    "lightgbm": {
+        "alias": "LightGBM",
+        "model_class": "LGBMRegressor",
+        "module": "lightgbm",
         "default_params": {
-            "n_jobs": -1
+            "random_state": 42,
+            "verbose": -1
         },
         "search_space": {
-            "n_neighbors": {
+            "n_estimators": {
                 "_type": "Integer",
-                "low": 3,
-                "high": 20,
+                "low": 50,
+                "high": 300,
                 "prior": "uniform"
             },
-            "weights": {
-                "_type": "Categorical",
-                "categories": [
-                    "uniform",
-                    "distance"
-                ]
-            },
-            "p": {
+            "max_depth": {
                 "_type": "Integer",
-                "low": 1,
-                "high": 2,
+                "low": 3,
+                "high": 10,
+                "prior": "uniform"
+            },
+            "learning_rate": {
+                "_type": "Real",
+                "low": 0.01,
+                "high": 0.3,
+                "prior": "log-uniform"
+            },
+            "subsample": {
+                "_type": "Real",
+                "low": 0.6,
+                "high": 1.0,
+                "prior": "uniform"
+            },
+            "colsample_bytree": {
+                "_type": "Real",
+                "low": 0.6,
+                "high": 1.0,
+                "prior": "uniform"
+            },
+            "num_leaves": {
+                "_type": "Integer",
+                "low": 20,
+                "high": 150,
+                "prior": "uniform"
+            },
+            "min_child_samples": {
+                "_type": "Integer",
+                "low": 5,
+                "high": 100,
+                "prior": "uniform"
+            },
+            "reg_alpha": {
+                "_type": "Real",
+                "low": 1e-05,
+                "high": 1.0,
+                "prior": "log-uniform"
+            },
+            "reg_lambda": {
+                "_type": "Real",
+                "low": 1e-05,
+                "high": 1.0,
+                "prior": "log-uniform"
+            }
+        },
+        "default_metric": "r2"
+    },
+    "xgboost": {
+        "alias": "XGBoost",
+        "model_class": "XGBRegressor",
+        "module": "xgboost",
+        "default_params": {
+            "random_state": 42,
+            "verbosity": 0
+        },
+        "search_space": {
+            "n_estimators": {
+                "_type": "Integer",
+                "low": 50,
+                "high": 300,
+                "prior": "uniform"
+            },
+            "max_depth": {
+                "_type": "Integer",
+                "low": 3,
+                "high": 10,
+                "prior": "uniform"
+            },
+            "learning_rate": {
+                "_type": "Real",
+                "low": 0.01,
+                "high": 0.3,
+                "prior": "log-uniform"
+            },
+            "subsample": {
+                "_type": "Real",
+                "low": 0.6,
+                "high": 1.0,
+                "prior": "uniform"
+            },
+            "colsample_bytree": {
+                "_type": "Real",
+                "low": 0.6,
+                "high": 1.0,
+                "prior": "uniform"
+            }
+        },
+        "default_metric": "r2"
+    },
+    "catboost": {
+        "alias": "CatBoost",
+        "model_class": "CatBoostRegressor",
+        "module": "catboost",
+        "default_params": {
+            "random_seed": 42,
+            "verbose": 0,
+            "allow_writing_files": false
+        },
+        "search_space": {
+            "iterations": {
+                "_type": "Integer",
+                "low": 50,
+                "high": 300,
+                "prior": "uniform"
+            },
+            "depth": {
+                "_type": "Integer",
+                "low": 3,
+                "high": 10,
+                "prior": "uniform"
+            },
+            "learning_rate": {
+                "_type": "Real",
+                "low": 0.01,
+                "high": 0.3,
+                "prior": "log-uniform"
+            },
+            "subsample": {
+                "_type": "Real",
+                "low": 0.6,
+                "high": 1.0,
+                "prior": "uniform"
+            },
+            "colsample_bylevel": {
+                "_type": "Real",
+                "low": 0.6,
+                "high": 1.0,
+                "prior": "uniform"
+            },
+            "l2_leaf_reg": {
+                "_type": "Real",
+                "low": 1.0,
+                "high": 10.0,
+                "prior": "uniform"
+            },
+            "border_count": {
+                "_type": "Integer",
+                "low": 32,
+                "high": 255,
+                "prior": "uniform"
+            },
+            "bagging_temperature": {
+                "_type": "Real",
+                "low": 0.0,
+                "high": 10.0,
+                "prior": "uniform"
+            },
+            "random_strength": {
+                "_type": "Real",
+                "low": 0.1,
+                "high": 10.0,
                 "prior": "uniform"
             }
         },

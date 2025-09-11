@@ -5,10 +5,46 @@
         "module": "sklearn.linear_model",
         "default_params": {},
         "search_space": {
-            "tol": {
+            "positive": {
+                "_type": "Categorical",
+                "categories": [
+                    "False",
+                    "True"
+                ]
+            }
+        },
+        "default_metric": "r2"
+    },
+    "ridge": {
+        "alias": "Ridge",
+        "model_class": "Ridge",
+        "module": "sklearn.linear_model",
+        "default_params": {
+            "random_state": 42
+        },
+        "search_space": {
+            "alpha": {
                 "_type": "Real",
-                "low": 1e-07,
-                "high": 1e-06,
+                "low": 0.001,
+                "high": 10.0,
+                "prior": "log-uniform"
+            }
+        },
+        "default_metric": "r2"
+    },
+    "lasso": {
+        "alias": "Lasso",
+        "model_class": "Lasso",
+        "module": "sklearn.linear_model",
+        "default_params": {
+            "random_state": 42,
+            "max_iter": 2000
+        },
+        "search_space": {
+            "alpha": {
+                "_type": "Real",
+                "low": 0.001,
+                "high": 10.0,
                 "prior": "log-uniform"
             }
         },
@@ -87,12 +123,42 @@
                     "uniform",
                     "distance"
                 ]
+            }
+        },
+        "default_metric": "r2"
+    },
+    "decision_tree": {
+        "alias": "DecisionTree",
+        "model_class": "DecisionTreeRegressor",
+        "module": "sklearn.tree",
+        "default_params": {
+            "random_state": 42
+        },
+        "search_space": {
+            "max_depth": {
+                "_type": "Integer",
+                "low": 3,
+                "high": 20,
+                "prior": "uniform"
             },
-            "p": {
+            "min_samples_split": {
+                "_type": "Integer",
+                "low": 2,
+                "high": 20,
+                "prior": "uniform"
+            },
+            "min_samples_leaf": {
                 "_type": "Integer",
                 "low": 1,
-                "high": 2,
+                "high": 10,
                 "prior": "uniform"
+            },
+            "max_features": {
+                "_type": "Categorical",
+                "categories": [
+                    "sqrt",
+                    "log2"
+                ]
             }
         },
         "default_metric": "r2"
@@ -109,7 +175,7 @@
             "n_estimators": {
                 "_type": "Integer",
                 "low": 50,
-                "high": 200,
+                "high": 300,
                 "prior": "uniform"
             },
             "max_depth": {
@@ -245,12 +311,6 @@
             "n_jobs": -1
         },
         "search_space": {
-            "n_estimators": {
-                "_type": "Integer",
-                "low": 50,
-                "high": 200,
-                "prior": "uniform"
-            },
             "max_depth": {
                 "_type": "Integer",
                 "low": 5,
@@ -322,18 +382,6 @@
                 "low": 5,
                 "high": 100,
                 "prior": "uniform"
-            },
-            "reg_alpha": {
-                "_type": "Real",
-                "low": 1e-05,
-                "high": 1.0,
-                "prior": "log-uniform"
-            },
-            "reg_lambda": {
-                "_type": "Real",
-                "low": 1e-05,
-                "high": 1.0,
-                "prior": "log-uniform"
             }
         },
         "default_metric": "r2"
@@ -425,24 +473,57 @@
                 "low": 1.0,
                 "high": 10.0,
                 "prior": "uniform"
+            }
+        },
+        "default_metric": "r2"
+    },
+    "mlp": {
+        "alias": "MLP",
+        "model_class": "MLPRegressor",
+        "module": "sklearn.neural_network",
+        "default_params": {
+            "random_state": 42,
+            "max_iter": 1000,
+            "early_stopping": true,
+            "n_iter_no_change": 10,
+            "tol": 0.0001,
+            "solver": "adam",
+            "learning_rate_init": 0.001,
+            "batch_size": "auto"
+        },
+        "search_space": {
+            "hidden_layer_sizes": {
+                "_type": "Categorical",
+                "categories": [
+                    16,
+                    32,
+                    64,
+                    128,
+                    256,
+                    512
+                ]
             },
-            "border_count": {
-                "_type": "Integer",
-                "low": 32,
-                "high": 255,
-                "prior": "uniform"
+            "activation": {
+                "_type": "Categorical",
+                "categories": [
+                    "relu",
+                    "tanh",
+                    "logistic"
+                ]
             },
-            "bagging_temperature": {
+            "alpha": {
                 "_type": "Real",
-                "low": 0.0,
-                "high": 10.0,
-                "prior": "uniform"
+                "low": 1e-05,
+                "high": 1.0,
+                "prior": "log-uniform"
             },
-            "random_strength": {
-                "_type": "Real",
-                "low": 0.1,
-                "high": 10.0,
-                "prior": "uniform"
+            "learning_rate": {
+                "_type": "Categorical",
+                "categories": [
+                    "constant",
+                    "adaptive",
+                    "invscaling"
+                ]
             }
         },
         "default_metric": "r2"

@@ -6,7 +6,7 @@ MVP da SPRINT de Machine Learning & Analytics da pós-graduação em Ciência de
 **Autor:** Fabiano da Mata Almeida  
 **Dataset:** Pressão de Vapor da Nafta
 
-[![Abrir no Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fdamata/pucrj-machinelearning-mvp-ml/blob/master/mvp_sprint_02_fma_2025_4.ipynb)
+[![Abrir no Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fdamata/pucrj-machinelearning-mvp-ml/blob/master/mvp_sprint_02_fma_2025.ipynb)
 
 ## Descrição do Projeto
 

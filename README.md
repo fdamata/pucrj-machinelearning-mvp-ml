@@ -1,41 +1,65 @@
-# pucrj-analisededados-mvp-eda
-MVP da SPRINT de Machine Learning & Analytics da pós-graduação em Ciência de Dados e Analytcs da PUC-RJ
-
-# MVP – Machine Learning & Analytics
+# MVP Machine Learning & Analytics - Pressão de Vapor da Nafta
 
 **Autor:** Fabiano da Mata Almeida  
-**Dataset:** Pressão de Vapor da Nafta
+**Matrícula:** 4052025000952  
+**Curso:** Pós-graduação em Ciência de Dados e Analytics - PUC-RJ  
+**Dataset:** Pressão de Vapor da Nafta (descaracterizado)
 
-[![Abrir no Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fdamata/pucrj-machinelearning-mvp-ml/blob/master/mvp_sprint_02_fma_2025.ipynb)
+[![Abrir no Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fdamata/pucrj-machinelearning-mvp-ml/blob/main/mvp_sprint_02_fma_2025.ipynb)
 
 ## Descrição do Projeto
 
-Este projeto apresenta um MVP de análise exploratória, tratamento e pré-processamento de dados para problemas de regressão em ambientes industriais, utilizando um dataset de Pressão de Vapor da Nafta. O objetivo é preparar os dados para modelagem preditiva, aplicando boas práticas de ciência de dados.
+Este MVP apresenta um **workflow de machine learning para algoritmos de regressão** focado na predição de propriedades físico-químicas em processos industriais de refino de petróleo.
 
-## Principais etapas do notebook
+## 🔄 Principais Etapas do Notebook
 
-- Análise exploratória e estatística das variáveis
-- Tratamento de valores faltantes e outliers
-- Criação de variáveis derivadas (feature engineering)
-- Redução de dimensionalidade e multicolinearidade
-- Transformações para normalização e padronização dos dados
-- Discussão das hipóteses do processo
-- Exercício extra de regressão linear com regularização Lasso
+### 1. Análise Exploratória e Preparação
+- **Carregamento e inspeção:** Análise inicial do dataset com 906 registros e 12 variáveis
+- **Análise visual:** Visualização de séries temporais e distribuição das variáveis
+- **Tratamento de outliers:** Visualização via boxplots e histogramas 
+- **Avaliação de normalidade:** Teste de Kolmogorov-Smirnov nas variáveis 
 
-## Observações sobre confidencialidade
+### 2. Engenharia de Features e Pré-processamento
+- **Análise de multicolinearidade:** Cálculo de VIF (Variance Inflation Factor)
+- **Remoção de variáveis:** Eliminação de features com alta correlação (VIF > 5)
+- **Feature engineering:** Criação da feature derivada "r_refl_nafta" (razão de refluxo)
+- **Divisão dos dados:** Split em conjuntos de treino (80%) e teste (20%)
 
-> Todos os dados utilizados neste estudo foram devidamente descaracterizados, não permitindo a identificação na sua unidade de medida original ou informações sensíveis. O uso desse dataset segue as boas práticas de ética em ciência de dados.
+### 3. Modelagem e Otimização
+- **Comparativo de normalização:** Standard, MinMax e PowerTransformer (Yeo-Johnson)
+- **Baseline:** Implementação de modelo linear como referência
+- **Otimização bayesiana:** BayesSearchCV com 50 iterações para hiperparâmetros
+- **Validação cruzada:** K-fold com 10 folds para avaliação robusta
+- **Algoritmos testados:** Modelos lineares, modelos baseados em árvores, ensemble e até uma rede neural (MLP)
 
-## Como executar no Google Colab
+### 4. Avaliação e Implantação
+- **Métricas comparativas:** R², MAE, MSE e RMSE entre modelos e scalers
+- **Visualização de resultados:** Boxplots de performance por algoritmo/scaler
+- **Análise de hiperparâmetros:** Impacto dos parâmetros na convergência
+- **Persistência do modelo:** Salvamento via joblib para deployment
+- **Demonstração de uso:** Exemplo de carregamento e predição
 
-Clique no botão acima ou acesse o link para abrir o notebook diretamente no Google Colab.  
-Se necessário, faça upload do arquivo `dataset_pv_nafta.xlsx` na área de arquivos do Colab antes de executar as células.
+## Objetivo do Negócio
 
----
+**Problema:** Predição precisa da pressão de vapor da nafta para otimização do processo de fracionamento do petróleo.
 
-## Licença
+## Principais Resultados
 
-Este projeto é apenas para fins acadêmicos e segue as diretrizes de ética e confidencialidade de dados.
+### Melhor Modelo
+- **Algoritmo:** CatBoost com PowerTransformer (Yeo-Johnson)
+- **Performance:** R² = 0.8062 (dados de teste)
 
-=======
-# pucrj-analisededados-mvp-eda
+## 🚀 Como Executar o Projeto
+
+### Instruções
+1. Clone este repositório
+2. Abra o notebook `mvp_sprint_02_fma_2025.ipynb` no Jupyter Notebook ou Google Colab
+3. Execute as células sequencialmente para reproduzir a análise completa
+4. Alternativamente, utilize o modelo já treinado carregando `modelo_final_pv_nafta.joblib`
+
+```python
+import joblib
+# Carregar o modelo
+modelo = joblib.load('modelo_final_pv_nafta.joblib')
+# Fazer predições
+predicoes = modelo.predict(dados_novos)

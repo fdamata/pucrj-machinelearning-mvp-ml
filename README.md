@@ -16,21 +16,19 @@ Este MVP apresenta um **workflow de machine learning para algoritmos de regress�
 ### 1. Análise Exploratória e Preparação
 - **Carregamento e inspeção:** Análise inicial do dataset com 906 registros e 12 variáveis
 - **Análise visual:** Visualização de séries temporais e distribuição das variáveis
-- **Tratamento de outliers:** Visualização via boxplots e histogramas 
 - **Avaliação de normalidade:** Teste de Kolmogorov-Smirnov nas variáveis 
 
 ### 2. Engenharia de Features e Pré-processamento
 - **Análise de multicolinearidade:** Cálculo de VIF (Variance Inflation Factor)
 - **Remoção de variáveis:** Eliminação de features com alta correlação (VIF > 5)
-- **Feature engineering:** Criação da feature derivada "r_refl_nafta" (razão de refluxo)
-- **Divisão dos dados:** Split em conjuntos de treino (80%) e teste (20%)
+- **Divisão dos dados:** Split em conjuntos de treino (75%) e teste (25%)
 
 ### 3. Modelagem e Otimização
 - **Comparativo de normalização:** Standard, MinMax e PowerTransformer (Yeo-Johnson)
-- **Baseline:** Implementação de modelo linear como referência
-- **Otimização bayesiana:** BayesSearchCV com 50 iterações para hiperparâmetros
+- **Baseline:** Implementação de modelo linear (Elastic Net) como referência
+- **Otimização bayesiana:** BayesSearchCV para otimização de hiperparâmetros
 - **Validação cruzada:** K-fold com 10 folds para avaliação robusta
-- **Algoritmos testados:** Modelos lineares, modelos baseados em árvores, ensemble e até uma rede neural (MLP)
+- **Algoritmos testados:** Modelos lineares, modelos baseados em árvores e ensemble
 
 ### 4. Avaliação e Implantação
 - **Métricas comparativas:** R², MAE, MSE e RMSE entre modelos e scalers
@@ -38,16 +36,6 @@ Este MVP apresenta um **workflow de machine learning para algoritmos de regress�
 - **Análise de hiperparâmetros:** Impacto dos parâmetros na convergência
 - **Persistência do modelo:** Salvamento via joblib para deployment
 - **Demonstração de uso:** Exemplo de carregamento e predição
-
-## Objetivo do Negócio
-
-**Problema:** Predição precisa da pressão de vapor da nafta para otimização do processo de fracionamento do petróleo.
-
-## Principais Resultados
-
-### Melhor Modelo
-- **Algoritmo:** CatBoost com PowerTransformer (Yeo-Johnson)
-- **Performance:** R² = 0.8062 (dados de teste)
 
 ## 🚀 Como Executar o Projeto
 

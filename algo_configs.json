@@ -52,7 +52,9 @@
                 "categories": [
                     "rbf",
                     "linear",
-                    "poly"
+                    "poly",
+                    "sigmoid",
+                    "precomputed"
                 ]
             }
         },
